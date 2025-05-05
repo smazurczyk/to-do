@@ -1,0 +1,148 @@
+﻿:root {
+    --darkest-gray: #1a1a1a;
+    --dark-gray: #2a2a2a;
+    --medium-gray: #3a3a3a;
+    --light-gray: #4a4a4a;
+    --dirty-white: #e0e0e0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: var(--dirty-white);    
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--darkest-gray);
+    display: flex;
+    justify-content: center;
+}
+
+#container {
+    width: 50%;
+    min-width: 400px;
+    margin-top: 2rem;
+    background-color: var(--medium-gray);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+h1 {
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 1.5rem 0;
+    color: var(--dirty-white);
+}
+
+.todo-item {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--dark-gray);
+    /* height: 20px; */
+    overflow: hidden;
+}
+
+.todo-item:not(:first-of-type) {
+    border-top: 2px solid var(--light-gray);
+    /* height: 22px; */
+}
+
+.item {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    height: 20px;
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    background-color: transparent;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--dirty-white);
+    display: grid;
+    place-content: center;
+}
+
+input[type="checkbox"]::before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    box-shadow: inset 20px 20px var(--dirty-white);
+    animation: uncheck 0.6s forwards;
+}
+
+input[type="checkbox"]:checked::before {
+    animation: check 0.6s forwards;
+}
+
+.todo-item input[type="checkbox"] + label {
+    display: grid;
+    place-content: center;
+    position: relative;
+
+}
+
+.todo-item input[type="checkbox"] + label::before {
+    content: "";
+    position: absolute;
+    top: 0.6em;
+    border-radius: 4px;
+    height: 2px;
+    width: 0%;
+    transition: 0.3s all ease-in;
+    background-color: var(--dirty-white);
+}
+
+.todo-item input[type="checkbox"]:checked + label::before {
+    margin-left: -1%;
+    width: 102%;
+}
+
+.subtask {
+    margin-left: 3rem
+}
+
+@keyframes uncheck {
+    0% {
+        clip-path: polygon(0 100%, 10% 100%, 100% 10%, 100% 0, 100% 100%, 100% 90%, 10% 0, 0 0, 0 10%, 90% 100%, 100% 100%, 100% 0%, 90% 0, 0 90%);
+    }
+    50% {
+        clip-path: polygon(0 100%, 10% 100%, 100% 10%, 100% 0, 100% 100%, 100% 90%, 100% 90%, 90% 90%, 90% 100%, 90% 100%, 100% 100%, 100% 0, 90% 0, 0 90%);
+    }
+    51% {
+        clip-path: polygon(0 100%, 10% 100%, 100% 10%, 100% 0, 100% 100%, 100% 90%, 100% 90%, 100% 100%, 90% 100%, 90% 100%, 100% 100%, 100% 0, 90% 0, 0 90%);
+    }
+    52% {
+        clip-path: polygon(0 100%, 10% 100%, 100% 10%, 100% 10%, 100% 10%, 100% 10%, 100% 10%, 100% 0, 90% 0, 90% 0, 90% 0, 90% 0, 90% 0, 0 90%);
+    }
+    99% {
+        clip-path: polygon(0 100%, 10% 100%, 10% 100%, 10% 100%, 10% 100%, 10% 100%, 10% 100%, 10% 90%, 0 90%, 0 90%, 0 90%, 0 90%, 0 90%, 0 90%);
+    }
+    100% {
+        clip-path: polygon(0 100%, 10% 100%, 10% 100%, 10% 100%, 10% 100%, 10% 100%, 10% 100%, 0 100%, 0 90%, 0 90%, 0 90%, 0 90%, 0 90%, 0 90%);
+    }
+}
+
+@keyframes check {
+    0% {
+        clip-path: polygon(0 100%, 10% 100%, 10% 100%, 10% 100%, 10% 100%, 10% 100%, 10% 100%, 0 100%, 0 90%, 0 90%, 0 90%, 0 90%, 0 90%, 0 90%);
+    }
+    1% {
+        clip-path: polygon(0 100%, 10% 100%, 10% 100%, 10% 100%, 10% 100%, 10% 100%, 10% 100%, 10% 90%, 0 90%, 0 90%, 0 90%, 0 90%, 0 90%, 0 90%);
+    }
+    50% {
+        clip-path: polygon(0 100%, 10% 100%, 100% 10%, 100% 10%, 100% 10%, 100% 10%, 100% 10%, 100% 0, 90% 0, 90% 0, 90% 0, 90% 0, 90% 0, 0 90%);
+    }
+    51% {
+        clip-path: polygon(0 100%, 10% 100%, 100% 10%, 100% 0, 100% 100%, 100% 90%, 100% 90%, 100% 100%, 90% 100%, 90% 100%, 100% 100%, 100% 0, 90% 0, 0 90%);
+    }
+    52% {
+        clip-path: polygon(0 100%, 10% 100%, 100% 10%, 100% 0, 100% 100%, 100% 90%, 100% 90%, 90% 90%, 90% 100%, 90% 100%, 100% 100%, 100% 0, 90% 0, 0 90%);
+    }
+    100% {
+        clip-path: polygon(0 100%, 10% 100%, 100% 10%, 100% 0, 100% 100%, 100% 90%, 10% 0, 0 0, 0 10%, 90% 100%, 100% 100%, 100% 0%, 90% 0, 0 90%);
+    }
+}
