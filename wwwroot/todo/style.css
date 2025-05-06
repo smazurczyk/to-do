@@ -15,6 +15,26 @@
 }
 
 body {
+    zoom: 150%;
+}
+
+img.icon {
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+    user-select: none;
+}
+
+div.arrow {
+    height: 20px;   
+    width: 20px;
+    display: inline-block;
+    background-color: var(--dirty-white);
+    clip-path: polygon(0 60%, 0 40%, 50% 10%, 100% 40%, 100% 60%, 50% 30%);
+    transition: clip-path 0.6s ease;
+}
+
+body {
     background-color: var(--darkest-gray);
     display: flex;
     justify-content: center;
@@ -40,20 +60,18 @@ h1 {
     display: flex;
     flex-direction: column;
     background-color: var(--dark-gray);
-    /* height: 20px; */
     overflow: hidden;
-}
-
-.todo-item:not(:first-of-type) {
-    border-top: 2px solid var(--light-gray);
-    /* height: 22px; */
+    margin: 5px;
+    border-radius: 5px;
+    transition: height 0.6s ease;
+    box-sizing: content-box;
+    interpolate-size: allow-keywords;
 }
 
 .item {
     display: flex;
     flex-direction: row;
-    align-content: center;
-    height: 20px;
+    padding: 5px;
 }
 
 input[type="checkbox"] {
@@ -71,18 +89,18 @@ input[type="checkbox"]::before {
     width: 20px;
     height: 20px;
     box-shadow: inset 20px 20px var(--dirty-white);
-    animation: uncheck 0.6s forwards;
+    animation: uncheck 0.4s forwards;
 }
 
 input[type="checkbox"]:checked::before {
-    animation: check 0.6s forwards;
+    animation: check 0.4s forwards;
 }
 
 .todo-item input[type="checkbox"] + label {
     display: grid;
     place-content: center;
     position: relative;
-
+    user-select: none;
 }
 
 .todo-item input[type="checkbox"] + label::before {
@@ -92,17 +110,50 @@ input[type="checkbox"]:checked::before {
     border-radius: 4px;
     height: 2px;
     width: 0%;
-    transition: 0.3s all ease-in;
+    transition: width 0.4s;
     background-color: var(--dirty-white);
+    margin-left: -1%;
 }
 
 .todo-item input[type="checkbox"]:checked + label::before {
-    margin-left: -1%;
     width: 102%;
 }
 
+.left-panel, .right-panel {
+    display: flex;
+}
+
+.left-panel {
+    flex: 2;
+    gap: 8px;
+}
+
+.right-panel {
+    justify-content: flex-end;
+    flex: 1;
+    gap: 8px;
+    align-items: center;
+}
+
 .subtask {
-    margin-left: 3rem
+    font-size: 0.8rem;
+    align-items: center;
+    gap: 4px;
+}
+
+.subtask input[type="checkbox"] {
+    height: 15px;
+    width: 15px;
+}
+
+.subtask input[type="checkbox"]::before {
+    height: 15px;
+    width: 15px;
+    box-shadow: inset 15px 15px var(--dirty-white);
+}
+
+.subtask input[type="checkbox"] + label::before {
+    top: 0.5em;
 }
 
 @keyframes uncheck {
