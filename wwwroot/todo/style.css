@@ -14,6 +14,134 @@
     font-family: 'Inter', sans-serif;
 }
 
+div#add-subtask {
+    order: 9999;
+}
+
+div#add-modal div.subtask {
+    height: 25px;
+    background-color: var(--medium-gray);
+}
+
+div#add-modal div.subtask input {
+    background-color: var(--medium-gray);
+}
+
+div#add-modal div.subtask input:focus {
+    background-color: var(--dark-gray);
+}
+
+div.modal input[type="text"] {
+    width: 100%;
+    height: 20px;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    background-color: var(--dark-gray);
+    color: var(--dirty-white);
+    padding: 0 5px;
+}
+
+div.modal input[type="text"]:focus {
+    background-color: var(--medium-gray);
+}
+
+div.modal input[type="checkbox"] {
+    border-color: var(--light-gray);
+}
+
+div.modal input[type="checkbox"]::before {
+    box-shadow: inset 20px 20px var(--light-gray);
+}
+
+div.modal div.todo-item {
+    height: fit-content;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+div#saved {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background-color: var(--dark-gray);
+    padding: 10px;
+    border-top-left-radius: 5px;
+    font-size: 0.7em;
+}
+
+div.item > p {
+    margin-left: 5px;
+    margin-top: 2px;
+}
+
+div.add-btn:hover {
+    cursor: pointer;
+    background-color: var(--light-gray);
+}
+
+div#add-subtask:hover {
+    background-color: var(--dark-gray);
+}
+
+img.add-icon {
+    height: 20px;
+    width: 20px;
+}
+
+html {
+    height: 100%;
+}
+
+div.buttons-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+div.buttons-container button {
+    width: 30%;
+    background-color: var(--dirty-white);
+    color: var(--darkest-gray);
+    border: none;
+    transition: all 0.5s;
+}
+
+div.buttons-container button:hover {
+    color: var(--dirty-white);
+    background-color: var(--dark-gray);
+    cursor: pointer;
+}
+
+div.modal {
+    background-color: var(--light-gray);
+    position: absolute;
+    left: 50%;
+    top: -100px;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    gap: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transition: top 1.5s;
+}
+
+div#cover  h2 {
+    font-size: 1rem;
+}
+
+div#cover {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    display: none;
+}
+
 img.icon {
     height: 16px;
     width: 16px;
@@ -38,6 +166,7 @@ body {
     background-color: var(--darkest-gray);
     display: flex;
     justify-content: center;
+    height: 100%;
 }
 
 #container {
@@ -50,13 +179,16 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     display: flex;
     flex-direction: column;
-    gap: 5px
+    gap: 5px;
+    height: fit-content;
+    transition: filter 1s;
 }
 
 h1 {
     font-size: 1.5rem;
     text-align: center;
     margin: 1rem 0;
+    order: -2;
 }
 
 .todo-item {
@@ -71,6 +203,7 @@ h1 {
     interpolate-size: allow-keywords;
     min-width: 390px;
     height: 30px;
+    user-select: none;
 }
 
 .item {
