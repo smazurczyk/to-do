@@ -56,8 +56,6 @@ div.modal input[type="checkbox"]::before {
 
 div.modal div.todo-item {
     height: fit-content;
-    max-height: 200px;
-    overflow-y: auto;
 }
 
 div#saved {
@@ -93,12 +91,12 @@ html {
     height: 100%;
 }
 
-div.buttons-container {
+div.button-container {
     display: flex;
     justify-content: space-around;
 }
 
-div.buttons-container button {
+div.button-container button {
     width: 30%;
     background-color: var(--dirty-white);
     color: var(--darkest-gray);
@@ -106,7 +104,7 @@ div.buttons-container button {
     transition: all 0.5s;
 }
 
-div.buttons-container button:hover {
+div.button-container button:hover {
     color: var(--dirty-white);
     background-color: var(--dark-gray);
     cursor: pointer;
@@ -139,7 +137,6 @@ div#cover {
     left: 0;
     top: 0;
     z-index: 10;
-    display: none;
 }
 
 img.icon {
@@ -181,7 +178,7 @@ body {
     flex-direction: column;
     gap: 5px;
     height: fit-content;
-    transition: filter 1s;
+    transition: filter 1.5s;
 }
 
 h1 {
@@ -202,7 +199,6 @@ h1 {
     box-sizing: content-box;
     interpolate-size: allow-keywords;
     min-width: 390px;
-    height: 30px;
     user-select: none;
 }
 
@@ -277,6 +273,7 @@ input[type="checkbox"]:checked::before {
     font-size: 0.8rem;
     align-items: center;
     gap: 4px;
+    background-color: var(--dark-gray);
 }
 
 .subtask input[type="checkbox"] {

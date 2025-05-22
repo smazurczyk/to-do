@@ -8,7 +8,7 @@ namespace ToDo
         {
             try
             {
-                JsonTasks? json = JsonSerializer.Deserialize<JsonTasks>(File.ReadAllText("./data/ToDo.json"));
+                JsonTasks json = JsonTasks.CheckFile();
                 ServerResponseTaskList response = new(true, json);
                 return response.Serialize();
             }
@@ -23,9 +23,9 @@ namespace ToDo
         {
             try
             {
-                JsonTasks? json = JsonSerializer.Deserialize<JsonTasks>(File.ReadAllText("./data/ToDo.json"));
+                JsonTasks json = JsonTasks.CheckFile();
                 if (task.Name == null) throw new Exception("Task name is required.");
-                if (task.Done == null) task.Done = false;
+                task.Done ??= false;
 
                 json.Data.Add(task);
                 File.WriteAllText("./data/ToDo.json", JsonSerializer.Serialize(json));
@@ -39,90 +39,19 @@ namespace ToDo
             }
         }
 
-        public static string Edit(TaskToDo task, string id)
+        public static string Delete(string id)
         {
             try
             {
-                JsonTasks? json = JsonSerializer.Deserialize<JsonTasks>(File.ReadAllText("./data/ToDo.json"));
+                JsonTasks json = JsonTasks.CheckFile();
 
-                if (json.Data.Count == 0) throw new Exception("No tasks exist in the database.");
-
-                if (json.Data.Count == 1)
-                {
-                    if (json.Data[0].id == id)
-                    {
-                        if (task.Name != null)
-                        {
-                            json.Data[0].Name = task.Name;
-                        }
-                        if (task.Done != null)
-                        {
-                            json.Data[0].Done = task.Done;
-                        }
-                        if (task.Deadline != null)
-                        {
-                            json.Data[0].Deadline = task.Deadline;
-                        }
-                        if(task.Subtasks != null)
-                        {
-                            json.Data[0].Subtasks = task.Subtasks;
-                        }
-
-                        File.WriteAllText("./data/ToDo.json", JsonSerializer.Serialize(json));
-                        ServerResponseSingleTask emptyDataResponse = new(true, json.Data[0]);
-                        return emptyDataResponse.Serialize();
-                    }
-                    else
-                    {
-                        throw new Exception("Invalid task id.");
-                    }
-                }
-
-                int taskId = json.Data.FindIndex(0, json.Data.Count, e => e.id == id);
-                if (taskId < 0) throw new Exception("Invalid task id.");
-
-                if (task.Name != null)
-                {
-                    json.Data[taskId].Name = task.Name;
-                }
-                if (task.Done != null)
-                {
-                    json.Data[taskId].Done = task.Done;
-                }
-                if (task.Deadline != null)
-                {
-                    json.Data[taskId].Deadline = task.Deadline;
-                }
-                if (task.Subtasks != null)
-                {
-                    json.Data[taskId].Subtasks = task.Subtasks;
-                }
-
-                File.WriteAllText("./data/ToDo.json", JsonSerializer.Serialize(json));
-                ServerResponseSingleTask response = new(true, json.Data[taskId]);
-                return response.Serialize();
-            }
-            catch (Exception ex)
-            {
-                ServerResponseSingleTask exception = new(false, null, ex.Message);
-                return exception.Serialize();
-            }
-        }
-
-        public static string Delete(string id)
-        {
-            try 
-            {
-                JsonTasks? json = JsonSerializer.Deserialize<JsonTasks>(File.ReadAllText("./data/ToDo.json"));
-
-
-                if(json.Data.Count == 0)
+                if (json.Data.Count == 0)
                 {
                     throw new Exception("No tasks exist in the database.");
                 }
                 if (json.Data.Count == 1)
                 {
-                    if (json.Data[0].id == id)
+                    if (json.Data[0].Id == id)
                     {
                         json.Data = [];
                         File.WriteAllText("./data/ToDo.json", JsonSerializer.Serialize(json));
@@ -135,13 +64,92 @@ namespace ToDo
                     }
                 }
 
-                int taskId = json.Data.FindIndex(0, json.Data.Count, e => e.id == id);
+                int taskIndex = json.Data.FindIndex(e => e.Id == id);
 
-                if (taskId < 0) throw new Exception("Invalid task id.");
+                if (taskIndex < 0) throw new Exception("Invalid task id.");
 
-                json.Data.RemoveAt(taskId);
+                json.Data.RemoveAt(taskIndex);
                 File.WriteAllText("./data/ToDo.json", JsonSerializer.Serialize(json));
                 ServerResponseSingleTask response = new(true, null);
+                return response.Serialize();
+            }
+            catch (Exception ex)
+            {
+                ServerResponseSingleTask exception = new(false, null, ex.Message);
+                return exception.Serialize();
+            }
+        }
+
+        public static string Replace(TaskToDo task, string id)
+        {
+            try
+            {
+                JsonTasks json = JsonTasks.CheckFile();
+
+                json.Data[json.Data.FindIndex(task => task.Id == id)] = task;
+
+                File.WriteAllText("./data/ToDo.json", JsonSerializer.Serialize(json));
+                ServerResponseSingleTask response = new(true, task);
+                return response.Serialize();
+            }
+            catch (Exception ex)
+            {
+                ServerResponseSingleTask exception = new(false, null, ex.Message);
+                return exception.Serialize();
+            }
+        }
+
+        public static string ChangeOrder(IndexJson newIndex, string id)
+        {
+            try
+            {
+                JsonTasks json = JsonTasks.CheckFile();
+
+                int oldIndex = json.Data.FindIndex(task => task.Id == id);
+                TaskToDo task = json.Data[oldIndex];
+                json.Data.RemoveAt(oldIndex);
+                json.Data.Insert(newIndex.Value, task);
+
+                File.WriteAllText("./data/ToDo.json", JsonSerializer.Serialize(json));
+                ServerResponseSingleTask response = new(true, null);
+                return response.Serialize();
+            }
+            catch (Exception ex)
+            {
+                ServerResponseSingleTask exception = new(false, null, ex.Message);
+                return exception.Serialize();
+            }
+        }
+
+        public static string Check(List<SimpleTask> changed)
+        {
+            try
+            {
+                JsonTasks json = JsonTasks.CheckFile();
+
+                foreach (SimpleTask task in changed)
+                {
+                    int taskIndex = json.Data.FindIndex(e => e.Id == task.Id);
+                    json.Data[taskIndex].Done = task.Done;
+
+                    if(task.Subtasks != null)
+                    {
+                        if(task.Subtasks.Count == 1)
+                        {
+                            json.Data[taskIndex].Subtasks[task.Subtasks[0].Index].Done = task.Subtasks[0].Done;
+                        }
+                        else if(task.Subtasks.Count > 1)
+                        {
+                            foreach (SimpleSubtask subtask in task.Subtasks)
+                            {
+                                json.Data[taskIndex].Subtasks[subtask.Index].Done = subtask.Done;
+                            }
+                        }
+                    }
+                }
+
+                File.WriteAllText("./data/ToDo.json", JsonSerializer.Serialize(json));
+                ServerReponseSimpleTasks response = new(true, changed);
                 return response.Serialize();
             }
             catch (Exception ex)

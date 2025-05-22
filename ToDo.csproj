@@ -13,6 +13,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <TypeScriptModuleKind>none</TypeScriptModuleKind>
+    <UserSecretsId>ce90c2d2-1ccf-4510-b476-fcbee002730f</UserSecretsId>
   </PropertyGroup>
 
 	<ItemGroup>
@@ -32,6 +33,10 @@
 
 	<ItemGroup>
 	  <None Include="wwwroot\todo\index.html" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="data\" />
 	</ItemGroup>
 
 </Project>
