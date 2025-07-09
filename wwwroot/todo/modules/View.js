@@ -1,13 +1,5 @@
 import { Controller } from "./Controller.js"
 
-/*
-	to-do:
-		- implement scroll on modal
-		- make the site responsive
-		- fix styles
-		- optimise some methods (View.placeItem, Model.remove)
-*/
-
 class View {
 	isUserMovingItem = false
 	mouseStartY = 0
@@ -405,11 +397,11 @@ class View {
 		}
 	}
 
-	debounce(func, state, timeout = 1000){
+	debounce(fn){
 		let timer
 		return (...args) => {
 			clearTimeout(timer)
-			timer = setTimeout(() => { func.apply(this, args); }, timeout)
+			timer = setTimeout(() => { fn.apply(this, args); }, 1000)
 		}
 	}
 

@@ -8,6 +8,10 @@ namespace ToDo
 
         static public JsonTasks CheckFile()
         {
+            if(!Directory.Exists("./data"))
+            {
+                Directory.CreateDirectory("./data");
+            }
             if (!File.Exists("./data/ToDo.json"))
             {
                 File.WriteAllText("./data/ToDo.json", """{"Data":[]}""");

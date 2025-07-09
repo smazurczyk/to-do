@@ -231,10 +231,13 @@ input[type="checkbox"]:checked::before {
 }
 
 .todo-item input[type="checkbox"] + label {
-    display: grid;
-    place-content: center;
+    display: inline-block;
+    align-content: center;
     position: relative;
     user-select: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: calc(100% - 56px);
 }
 
 .todo-item input[type="checkbox"] + label::before {
@@ -250,7 +253,7 @@ input[type="checkbox"]:checked::before {
 }
 
 .todo-item input[type="checkbox"]:checked + label::before {
-    width: 102%;
+    width: 100%;
 }
 
 .left-panel, .right-panel {
@@ -260,6 +263,7 @@ input[type="checkbox"]:checked::before {
 .left-panel {
     flex: 2;
     gap: 8px;
+    max-width: calc(100% - 64px);
 }
 
 .right-panel {
@@ -267,6 +271,7 @@ input[type="checkbox"]:checked::before {
     flex: 1;
     gap: 8px;
     align-items: center;
+    min-width: 64px;
 }
 
 .subtask {
